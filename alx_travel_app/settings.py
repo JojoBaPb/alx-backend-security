@@ -1,5 +1,5 @@
 import os
-
+from celery.schedules import crontab
 """
 Django settings for alx_travel_app project.
 
@@ -112,6 +112,13 @@ CACHES = {
         "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
         "LOCATION": "unique-ip-cache",
     }
+}
+
+CELERY_BEAT_SCHEDULE = {
+    'detect-suspicious-ips-hourly': {
+        'task': 'ip_tracking.tasks.detect_suspicious_ips',
+        'schedule': crontab(minute=0),  # every hour
+    },
 }
 
 # Internationalization
